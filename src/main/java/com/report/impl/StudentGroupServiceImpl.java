@@ -1,7 +1,13 @@
 package com.report.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.report.DTOs.StrudentGroupDTO;
+import com.report.entities.User;
+import com.report.mapping.MappingCls;
+import com.report.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.StudentGroup;
@@ -12,43 +18,40 @@ import com.report.services.StudentGroupService;
 public class StudentGroupServiceImpl implements StudentGroupService {
 
     private final StudentGroupRepo studentGroupRepository;
+    private  final MappingCls mapper;
+    private  final UserRepo userRepo;
 
-
-    public StudentGroupServiceImpl(StudentGroupRepo studentGroupRepository) {
+    public StudentGroupServiceImpl(UserRepo userRepo, StudentGroupRepo studentGroupRepository, MappingCls mapper) {
         this.studentGroupRepository = studentGroupRepository;
+        this.mapper=mapper;
+        this.userRepo=userRepo;
     }
 
-
-    // @Override
-    // public StudentGroup createGroup(StudentGroup group) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'createGroup'");
-    // }
-
-
-    // @Override
-    // public StudentGroup getGroupById(Long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'getGroupById'");
-    // }
-
-
-    // @Override
-    // public StudentGroup updateGroup(Long id, StudentGroup group) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'updateGroup'");
-    // }
-
-
-    // @Override
-    // public void deleteGroup(Long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'deleteGroup'");
-    // }
-
     @Override
-    public StudentGroup createGroup(StudentGroup group) {
-        return studentGroupRepository.save(group);
+    public StrudentGroupDTO createGroup(StrudentGroupDTO dto) {
+        //fetch and set std
+        List<User> students=new ArrayList<>();
+        List<Long> stds=dto.getStdIds();
+        for(Long id: stds){
+            Optional<User> opt= userRepo.findById(id);
+            if(opt.isPresent()){
+                students.add(opt.get());
+            }
+        }
+        User supervisor=null;
+        //fetch and set supervisor
+        Optional<User> opt= userRepo.findById(dto.getSupervisorId());
+        if(opt.isPresent()){
+            supervisor=opt.get();
+        }
+
+         StudentGroup std= mapper.dtoToStudentGroup(dto);
+        std.setStudents(students);
+        std.setSupervisor(supervisor);
+
+       StudentGroup createdGroup = studentGroupRepository.save(std);
+     StrudentGroupDTO obj= mapper.studentGroupToDTO(createdGroup);
+        return obj;
     }
 
     @Override
@@ -58,15 +61,19 @@ public class StudentGroupServiceImpl implements StudentGroupService {
 
     @Override
     public StudentGroup updateGroup(Long id, StudentGroup group) {
-        if (!studentGroupRepository.existsById(id)) {
-            throw new RuntimeException("Group not found");
-        }
-        return studentGroupRepository.save(group);
+        StudentGroup gru= studentGroupRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with id "+id) );
+        gru.setGroupName(group.getGroupName());
+        gru.setStudents(group.getStudents());
+        gru.setAssignments(group.getAssignments());
+        gru.setSupervisor(group.getSupervisor());
+        return studentGroupRepository.save(gru);
     }
 
     @Override
     public void deleteGroup(Long id) {
         studentGroupRepository.deleteById(id);
+        System.out.println("deleted successfully ");
+
     }
 
     @Override

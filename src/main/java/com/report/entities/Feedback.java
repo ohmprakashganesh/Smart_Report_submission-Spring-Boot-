@@ -2,6 +2,11 @@ package com.report.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -13,6 +18,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Feedback {
     
     @Id
@@ -25,7 +34,7 @@ public class Feedback {
     @Column(updatable = false)
     private LocalDateTime submittedAt;
 
-
+    @JsonIgnore
     @OneToOne
     private AssignmentIteration assignmentIteration;
 

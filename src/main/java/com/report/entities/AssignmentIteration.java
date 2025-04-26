@@ -1,5 +1,6 @@
 package com.report.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,11 +10,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AssignmentIteration {
     @Id 
         @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -25,6 +32,7 @@ public class AssignmentIteration {
 
     private String documentUrl;
 
+    @JsonIgnore
     @ManyToOne
     private Assignment assignment;
 

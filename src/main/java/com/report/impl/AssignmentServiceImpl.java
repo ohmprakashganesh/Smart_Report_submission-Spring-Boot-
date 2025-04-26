@@ -6,6 +6,8 @@ import com.report.entities.Assignment;
 import com.report.repository.AssignmentRepo;
 import com.report.services.AssignmentService;
 
+import java.util.List;
+
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -55,15 +57,21 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
+    public List< Assignment> getAllAssignment() {
+        return assignmentRepository.findAll();
+    }
+
+    @Override
     public Assignment updateAssignment(Long id, Assignment assignment) {
-        if (!assignmentRepository.existsById(id)) {
-            throw new RuntimeException("Assignment not found");
-        }
-        return assignmentRepository.save(assignment);
+        Assignment obj= assignmentRepository.findById(id).orElseThrow(()-> new RuntimeException("not found with the id"+id));
+        obj.setDescription(assignment.getDescription());
+        obj.setStudentGroup(assignment.getStudentGroup());
+        return assignmentRepository.save(obj);
     }
 
     @Override
     public void deleteAssignment(Long id) {
         assignmentRepository.deleteById(id);
+        System.out.println("successfully deleted");
     }
 }

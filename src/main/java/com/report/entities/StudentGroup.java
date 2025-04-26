@@ -1,30 +1,34 @@
 package com.report.entities;
 import java.util.List;
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentGroup {
     @Id
  @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+
     private String groupName;
 
     @OneToMany(mappedBy = "group")
+    @JsonManagedReference
     private List<User> students; // Users with role STUDENT
 
     @ManyToOne
     private User supervisor; // User with role SUPERVISOR
 
-    @OneToMany(mappedBy = "studentGroup")
+    @OneToMany(mappedBy = "studentGroup",fetch = FetchType.EAGER)
     private List<Assignment> assignments;
 }

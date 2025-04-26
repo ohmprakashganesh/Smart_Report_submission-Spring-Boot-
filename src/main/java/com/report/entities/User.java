@@ -2,6 +2,8 @@ package com.report.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,12 +12,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.Data;
+import lombok.*;
 
 
 @Entity
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
 
     @Id
      @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,11 +40,12 @@ public class User {
 
     // Supervisor-only relation
     @OneToMany(mappedBy = "supervisor")
+    @JsonBackReference
     private List<StudentGroup> supervisedGroups;
 
-    public List<StudentGroup> getSupervisedGroups() {
-        return supervisedGroups;
-    }
+//    public List<StudentGroup> getSupervisedGroups() {
+//        return supervisedGroups;
+//    }
 
     public void setSupervisedGroups(List<StudentGroup> supervisedGroups) {
         this.supervisedGroups = supervisedGroups;

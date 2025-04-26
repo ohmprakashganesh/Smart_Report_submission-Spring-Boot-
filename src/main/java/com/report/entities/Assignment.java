@@ -11,10 +11,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Assignment {
     @Id 
      @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,9 +29,12 @@ public class Assignment {
     // private String title;
     private String description;
 
+    private String title;
+
     @ManyToOne
     @JsonIgnore
     private StudentGroup studentGroup;
+
 
     @OneToMany(mappedBy="assignment", cascade=CascadeType.ALL)
     private List<AssignmentIteration> iterations;
