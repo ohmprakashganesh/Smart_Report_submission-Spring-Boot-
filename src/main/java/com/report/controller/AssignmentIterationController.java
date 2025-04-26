@@ -1,5 +1,6 @@
 package com.report.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,34 +17,39 @@ import com.report.entities.AssignmentIteration;
 import com.report.services.AssignmentIterationService;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/itr")
 public class AssignmentIterationController {
 
     private final AssignmentIterationService assignmentIterationService;
 
-    @Autowired
-    public AssignmentIterationController(AssignmentIterationService assignmentIterationService) {
-        this.assignmentIterationService = assignmentIterationService;
-    }
+//    @Autowired
+//    public AssignmentIterationController(AssignmentIterationService assignmentIterationService) {
+//        this.assignmentIterationService = assignmentIterationService;
+//    }
 
+    //submitting the Assignment
     @PostMapping
     public ResponseEntity<AssignmentIteration> createIteration(@RequestBody AssignmentIteration iteration) {
         AssignmentIteration createdIteration = assignmentIterationService.createIteration(iteration);
         return new ResponseEntity<>(createdIteration, HttpStatus.CREATED);
     }
 
+    //get the single assignment
     @GetMapping("/{id}")
     public ResponseEntity<AssignmentIteration> getIteration(@PathVariable Long id) {
         AssignmentIteration iteration = assignmentIterationService.getIterationById(id);
         return new ResponseEntity<>(iteration, HttpStatus.OK);
     }
 
+//update the Assignment iteration
     @PutMapping("/{id}")
     public ResponseEntity<AssignmentIteration> updateIteration(@PathVariable Long id, @RequestBody AssignmentIteration iteration) {
         AssignmentIteration updatedIteration = assignmentIterationService.updateIteration(id, iteration);
         return new ResponseEntity<>(updatedIteration, HttpStatus.OK);
     }
 
+    //delete the assignment
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteIteration(@PathVariable Long id) {
         assignmentIterationService.deleteIteration(id);

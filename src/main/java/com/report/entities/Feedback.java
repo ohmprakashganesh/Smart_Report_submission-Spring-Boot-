@@ -14,6 +14,7 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Feedback {
+    
     @Id
      @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;

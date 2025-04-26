@@ -25,24 +25,27 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
+    //post the feedback
     @PostMapping
     public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
         Feedback createdFeedback = feedbackService.createFeedback(feedback);
         return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
     }
 
+    //fetch single feedback
     @GetMapping("/{id}")
     public ResponseEntity<Feedback> getFeedback(@PathVariable Long id) {
         Feedback feedback = feedbackService.getFeedbackById(id);
         return new ResponseEntity<>(feedback, HttpStatus.OK);
     }
-
+//update feedback
     @PutMapping("/{id}")
     public ResponseEntity<Feedback> updateFeedback(@PathVariable Long id, @RequestBody Feedback feedback) {
         Feedback updatedFeedback = feedbackService.updateFeedback(id, feedback);
         return new ResponseEntity<>(updatedFeedback, HttpStatus.OK);
     }
 
+    //delete the feedback
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
         feedbackService.deleteFeedback(id);

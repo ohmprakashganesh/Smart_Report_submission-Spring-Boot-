@@ -3,17 +3,19 @@ package com.report.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.report.entities.Role;
 import org.springframework.stereotype.Service;
 
-import com.report.entities.Role;
 import com.report.entities.User;
 import com.report.repository.UserRepo;
 import com.report.services.UserService;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    private  UserRepo userRepository;
+    
+    private final  UserRepo userRepository;
 
   
     public UserServiceImpl(UserRepo userRepository) {
@@ -40,9 +42,9 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> updated = userRepository.findById(id);
         User user= updated.get();
-          user.setName(temp.getName());
-          user.setPassword(temp.getPassword());
-          user.setRole(Role.STUDENT);
+        user.setName(temp.getName());
+        user.setRole(Role.STUDENT);
+        user.setGroup(temp.getGroup());
         return userRepository.save(user);
     }
 

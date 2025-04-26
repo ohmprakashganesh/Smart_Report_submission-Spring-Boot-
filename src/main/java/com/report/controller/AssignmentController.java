@@ -27,24 +27,28 @@ public class AssignmentController {
         this.assignmentService = assignmentService;
     }
 
+    //Post the Assignment
     @PostMapping
     public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
         Assignment createdAssignment = assignmentService.createAssignment(assignment);
         return new ResponseEntity<>(createdAssignment, HttpStatus.CREATED);
     }
 
+    //fetch single  assignment
     @GetMapping("/{id}")
-    public ResponseEntity<Assignment> getAssignment(@PathVariable Long id,@RequestBody User user) {
+    public ResponseEntity<Assignment> getAssignment(@PathVariable Long id) {
         Assignment assignment = assignmentService.getAssignmentById(id);
         return new ResponseEntity<>(assignment, HttpStatus.OK);
     }
 
+    //update the assignment
     @PutMapping("/{id}")
     public ResponseEntity<Assignment> updateAssignment(@PathVariable Long id, @RequestBody Assignment assignment) {
         Assignment updatedAssignment = assignmentService.updateAssignment(id, assignment);
         return new ResponseEntity<>(updatedAssignment, HttpStatus.OK);
     }
 
+    //Delete Assignment
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAssignment(@PathVariable Long id) {
         assignmentService.deleteAssignment(id);
