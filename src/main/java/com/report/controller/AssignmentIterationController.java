@@ -1,0 +1,52 @@
+package com.report.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.report.entities.AssignmentIteration;
+import com.report.services.AssignmentIterationService;
+
+@RestController
+@RequestMapping("/api/itr")
+public class AssignmentIterationController {
+
+    private final AssignmentIterationService assignmentIterationService;
+
+    @Autowired
+    public AssignmentIterationController(AssignmentIterationService assignmentIterationService) {
+        this.assignmentIterationService = assignmentIterationService;
+    }
+
+    @PostMapping
+    public ResponseEntity<AssignmentIteration> createIteration(@RequestBody AssignmentIteration iteration) {
+        AssignmentIteration createdIteration = assignmentIterationService.createIteration(iteration);
+        return new ResponseEntity<>(createdIteration, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AssignmentIteration> getIteration(@PathVariable Long id) {
+        AssignmentIteration iteration = assignmentIterationService.getIterationById(id);
+        return new ResponseEntity<>(iteration, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AssignmentIteration> updateIteration(@PathVariable Long id, @RequestBody AssignmentIteration iteration) {
+        AssignmentIteration updatedIteration = assignmentIterationService.updateIteration(id, iteration);
+        return new ResponseEntity<>(updatedIteration, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIteration(@PathVariable Long id) {
+        assignmentIterationService.deleteIteration(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+}
