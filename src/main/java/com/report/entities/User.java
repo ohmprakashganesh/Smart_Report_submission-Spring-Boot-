@@ -4,14 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -35,67 +29,25 @@ public class User {
     private Role role;
 
     // Student-only relation
+//    @ManyToOne
+//    @JsonManagedReference(value = "supervisor-group")
+//    private StudentGroup group;
+//
+//    // Supervisor-only relation
+//    @OneToMany(mappedBy = "supervisor")
+//    @JsonManagedReference(value = "user-studentGroup")
+//    private List<StudentGroup> supervisedGroups;
+
+
     @ManyToOne
+    @JoinColumn(name = "group_id", foreignKey = @ForeignKey(name = "fk_user_group", foreignKeyDefinition = "FOREIGN KEY (group_id) REFERENCES student_group(id) ON DELETE SET NULL"))
+    @JsonBackReference (value = "group")
     private StudentGroup group;
+
 
     // Supervisor-only relation
     @OneToMany(mappedBy = "supervisor")
-    @JsonBackReference
+   @JsonManagedReference(value = "supervisor")
     private List<StudentGroup> supervisedGroups;
 
-//    public List<StudentGroup> getSupervisedGroups() {
-//        return supervisedGroups;
-//    }
-
-    public void setSupervisedGroups(List<StudentGroup> supervisedGroups) {
-        this.supervisedGroups = supervisedGroups;
-    }
-
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public StudentGroup getGroup() {
-//        return group;
-//    }
-//
-//    public void setGroup(StudentGroup group) {
-//        this.group = group;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public Role getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(Role role) {
-//        this.role = role;
-//    }
 }

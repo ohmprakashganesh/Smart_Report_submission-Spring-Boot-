@@ -1,5 +1,6 @@
 package com.report.controller;
 
+import com.report.DTOs.AssignmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import com.report.entities.Assignment;
 import com.report.entities.User;
 import com.report.services.AssignmentService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/assignments")
 public class AssignmentController {
@@ -29,11 +32,10 @@ public class AssignmentController {
 
     //Post the Assignment
     @PostMapping
-    public ResponseEntity<Assignment> createAssignment(@RequestBody Assignment assignment) {
+    public ResponseEntity<Assignment> createAssignment(@RequestBody AssignmentDTO assignment) {
         Assignment createdAssignment = assignmentService.createAssignment(assignment);
         return new ResponseEntity<>(createdAssignment, HttpStatus.CREATED);
     }
-
     //fetch single  assignment
     @GetMapping("/{id}")
     public ResponseEntity<Assignment> getAssignment(@PathVariable Long id) {
@@ -41,6 +43,11 @@ public class AssignmentController {
         return new ResponseEntity<>(assignment, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Assignment>> getAll() {
+        List< Assignment> assignment = assignmentService.getAssignmentAll();
+        return new ResponseEntity<>(assignment, HttpStatus.OK);
+    }
     //update the assignment
     @PutMapping("/{id}")
     public ResponseEntity<Assignment> updateAssignment(@PathVariable Long id, @RequestBody Assignment assignment) {

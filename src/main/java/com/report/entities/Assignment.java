@@ -1,6 +1,7 @@
 package com.report.entities;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Assignment {
     private String title;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference(value = "supervisor-assignment")
     private StudentGroup studentGroup;
 
 

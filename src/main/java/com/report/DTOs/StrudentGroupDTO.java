@@ -27,13 +27,13 @@ public class StrudentGroupDTO {
     private  Long supervisorId;
 
 
-
-
-    private List<UserDTO> students; // Users with role STUDENT
-
-
-    private UserDTO supervisor; // User with role SUPERVISOR
-
-
-    private List<Long> assignmentIds;
+//
+//
+//    private List<UserDTO> students; // Users with role STUDENT
+//
+//
+//    private UserDTO supervisor; // User with role SUPERVISOR
+//
+//
+//    private List<Long> assignmentIds;
 }

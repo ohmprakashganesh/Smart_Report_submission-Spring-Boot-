@@ -1,5 +1,7 @@
 package com.report.controller;
 
+import com.report.DTOs.AssignmentIterDTO;
+import com.report.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.report.entities.AssignmentIteration;
 import com.report.services.AssignmentIterationService;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/itr")
 public class AssignmentIterationController {
+     public User user;
+
 
     private final AssignmentIterationService assignmentIterationService;
 
@@ -30,7 +37,7 @@ public class AssignmentIterationController {
 
     //submitting the Assignment
     @PostMapping
-    public ResponseEntity<AssignmentIteration> createIteration(@RequestBody AssignmentIteration iteration) {
+    public ResponseEntity<AssignmentIteration> createIteration(@RequestBody AssignmentIterDTO iteration) {
         AssignmentIteration createdIteration = assignmentIterationService.createIteration(iteration);
         return new ResponseEntity<>(createdIteration, HttpStatus.CREATED);
     }
@@ -39,13 +46,43 @@ public class AssignmentIterationController {
     @GetMapping("/{id}")
     public ResponseEntity<AssignmentIteration> getIteration(@PathVariable Long id) {
         try {
-            AssignmentIteration iteration = assignmentIterationService.getIterationById(id);
+            Optional<AssignmentIteration> iteration = assignmentIterationService.getIterationById(id);
+            return new ResponseEntity<>(iteration.get(), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List< AssignmentIteration >> getIterationAll() {
+        try {
+            List<AssignmentIteration> iteration = assignmentIterationService.getIterationAll();
             return new ResponseEntity<>(iteration, HttpStatus.OK);
         }catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         }
     }
+
+    @GetMapping("/byStudent")
+    public ResponseEntity<List< AssignmentIteration >> getIterationByStudent() {
+        try {
+            List<AssignmentIteration> iteration = assignmentIterationService.getIterationByStd(user);
+            return new ResponseEntity<>(iteration, HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+//    getIterationByGroup
+//
+//    @GetMapping("/byAssignment")
+//    public ResponseEntity<List< AssignmentIteration >> getIterationByAssignment() {
+//        try {
+//            List<AssignmentIteration> iteration = assignmentIterationService.getIterationByAssignment(user);
+//            return new ResponseEntity<>(iteration, HttpStatus.OK);
+//        }catch (Exception ex){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 //update the Assignment iteration
     @PutMapping("/{id}")

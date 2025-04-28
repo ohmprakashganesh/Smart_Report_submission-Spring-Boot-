@@ -13,7 +13,6 @@ import com.report.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     
     private final  UserRepo userRepository;
 

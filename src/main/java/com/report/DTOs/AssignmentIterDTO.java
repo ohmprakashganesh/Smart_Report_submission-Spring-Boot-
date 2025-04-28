@@ -15,24 +15,35 @@ import lombok.NoArgsConstructor;
 public class AssignmentIterDTO {
 
 
+
+
+
     private Long id;
-
-    @Enumerated(EnumType.STRING)
     private IterationType iterationType;
-
     private String documentUrl;
-
-
+    private SubmissionStatus status;
+    private Long submittedBy; // ID of the user
     private Long assignmentId;
 
-
-    private SubmissionStatus status = SubmissionStatus.SUBMITTED;
-
-
-
-    private Long studentSubmitId; // User with role STUDENT
-
-    private Long feedbackId;
+//    private Long id;
+//
+//
+//    @Enumerated(EnumType.STRING)
+//    private IterationType iterationType;
+//
+//    private String documentUrl;
+//
+//
+//    private Long assignmentId;
+//
+//
+//    private SubmissionStatus status = SubmissionStatus.SUBMITTED;
+//
+//
+//
+//    private Long studentSubmitId; // User with role STUDENT
+//
+//    private Long feedbackId;
 }
 
 

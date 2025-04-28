@@ -1,5 +1,8 @@
 package com.report.impl;
 
+import com.report.DTOs.AssignmentDTO;
+import com.report.entities.StudentGroup;
+import com.report.repository.StudentGroupRepo;
 import org.springframework.stereotype.Service;
 
 import com.report.entities.Assignment;
@@ -7,48 +10,43 @@ import com.report.repository.AssignmentRepo;
 import com.report.services.AssignmentService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
 
     private final AssignmentRepo assignmentRepository;
+    private  final StudentGroupRepo studentGroupRepo;
 
   
-    public AssignmentServiceImpl(AssignmentRepo assignmentRepository) {
+    public AssignmentServiceImpl(AssignmentRepo assignmentRepository , StudentGroupRepo studentGroupRepo) {
         this.assignmentRepository = assignmentRepository;
+        this.studentGroupRepo=studentGroupRepo;
     }
 
 
-    // @Override
-    // public Assignment createAssignment(Assignment assignment) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'createAssignment'");
-    // }
-
-
-    // @Override
-    // public Assignment getAssignmentById(Long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'getAssignmentById'");
-    // }
-
-
-    // @Override
-    // public Assignment updateAssignment(Long id, Assignment assignment) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'updateAssignment'");
-    // }
-
-
-    // @Override
-    // public void deleteAssignment(Long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'deleteAssignment'");
-    // }
-
     @Override
-    public Assignment createAssignment(Assignment assignment) {
-        return assignmentRepository.save(assignment);
+    public Assignment createAssignment(AssignmentDTO assignment) {
+        Assignment obj= new Assignment();
+        System.out.println("thisi is shoeing te "+assignment.toString());
+        System.out.println("are you done ");
+        obj.setTitle(assignment.getTitle());
+        obj.setDescription(assignment.getDescription());
+
+        if(assignment.getStudentGroupId() !=null){
+            Optional<StudentGroup> gru= studentGroupRepo.findById(assignment.getStudentGroupId());
+            if(gru.isPresent()){
+                obj.setStudentGroup(gru.get());
+            }
+        }else{
+            Optional<StudentGroup> gru= studentGroupRepo.findByName(assignment.getStudentGroupName());
+            if(gru.isPresent()){
+                obj.setStudentGroup(gru.get());
+            }
+        }
+
+
+        return assignmentRepository.save(obj);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public List< Assignment> getAllAssignment() {
+    public List< Assignment> getAssignmentAll() {
         return assignmentRepository.findAll();
     }
 
@@ -74,4 +72,6 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignmentRepository.deleteById(id);
         System.out.println("successfully deleted");
     }
+
+
 }

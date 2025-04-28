@@ -1,6 +1,8 @@
 package com.report.entities;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -20,15 +22,17 @@ public class StudentGroup {
     private Long id;
 
 
-    private String groupName;
+    private String name;
 
-    @OneToMany(mappedBy = "group")
-    @JsonManagedReference
-    private List<User> students; // Users with role STUDENT
+   @OneToMany(mappedBy = "group")
+    @JsonManagedReference (value ="group")
+   private List<User> students; // Users with role STUDENT
 
-    @ManyToOne
-    private User supervisor; // User with role SUPERVISOR
+   @ManyToOne
+   @JsonBackReference(value = "supervisor")
+   private User supervisor; // User with role SUPERVISOR
 
     @OneToMany(mappedBy = "studentGroup",fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "supervisor-assignment")
     private List<Assignment> assignments;
 }

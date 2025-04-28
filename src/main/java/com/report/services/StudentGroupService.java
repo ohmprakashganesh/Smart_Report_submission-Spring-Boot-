@@ -6,7 +6,7 @@ import com.report.DTOs.StrudentGroupDTO;
 import com.report.entities.StudentGroup;
 
 public interface StudentGroupService {
-    StrudentGroupDTO createGroup(StrudentGroupDTO group);
+    StudentGroup createGroup(StrudentGroupDTO group);
     StudentGroup getGroupById(Long id);
     List<StudentGroup> allGroups();
     StudentGroup updateGroup(Long id, StudentGroup group);

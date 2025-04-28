@@ -2,7 +2,7 @@ package com.report.controller;
 import java.util.List;
 
 import com.report.DTOs.StrudentGroupDTO;
-import com.report.mapping.MappingCls;
+//import com.report.mapping.MappingCls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +16,22 @@ import com.report.services.StudentGroupService;
 public class StudentGroupController {
 
     private final StudentGroupService studentGroupService;
-    private final MappingCls mapper;
+//    private final MappingCls mapper;
 
     @Autowired
-    public StudentGroupController(StudentGroupService studentGroupService, MappingCls mapper) {
+    public StudentGroupController(StudentGroupService studentGroupService) {
         this.studentGroupService = studentGroupService;
-        this.mapper=mapper;
+//        this.mapper=mapper;
     }
 //post the student in group
     @PostMapping
-    public ResponseEntity<StrudentGroupDTO> createGroup(@RequestBody StrudentGroupDTO group) {
+    public ResponseEntity<StudentGroup> createGroup(@RequestBody StrudentGroupDTO group) {
 //        StudentGroup std= mapper.dtoToStudentGroup(group);
 //        StudentGroup createdGroup = studentGroupService.createGroup(group);
 //        StrudentGroupDTO obj= mapper.studentGroupToDTO(createdGroup);
 
-        StrudentGroupDTO createdGroup = studentGroupService.createGroup(group);
 
-
-        return new ResponseEntity<>(createdGroup, HttpStatus.CREATED);
+        return new ResponseEntity<>(studentGroupService.createGroup(group), HttpStatus.CREATED);
     }
 
     //fetch the single group
