@@ -25,7 +25,7 @@ public class StudentGroup {
     private String name;
 
    @OneToMany(mappedBy = "group")
-    @JsonManagedReference (value ="group")
+  @JsonManagedReference (value = "group")
    private List<User> students; // Users with role STUDENT
 
    @ManyToOne

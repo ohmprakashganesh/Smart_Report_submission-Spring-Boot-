@@ -1,5 +1,6 @@
 package com.report.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -23,14 +24,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AssignmentIteration {
     @Id 
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
-
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     private IterationType iterationType;
 
     private String documentUrl;
+
+    private  String documentName;
 
     @JsonIgnore
     @ManyToOne
@@ -44,5 +46,6 @@ public class AssignmentIteration {
     private User submittedBy; // User with role STUDENT
 
     @OneToOne(mappedBy="assignmentIteration", cascade = CascadeType.ALL)
+    @JsonBackReference(value = "feed")
     private Feedback feedback;
 }

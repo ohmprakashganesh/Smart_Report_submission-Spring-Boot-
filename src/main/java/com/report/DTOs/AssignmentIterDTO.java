@@ -1,49 +1,43 @@
 package com.report.DTOs;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.report.entities.*;
-import jakarta.persistence.*;
+
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.report.entities.IterationType;
+import com.report.entities.SubmissionStatus;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssignmentIterDTO {
 
-
-
-
-
     private Long id;
     private IterationType iterationType;
-    private String documentUrl;
+    private MultipartFile file;
     private SubmissionStatus status;
     private Long submittedBy; // ID of the user
     private Long assignmentId;
 
-//    private Long id;
-//
-//
-//    @Enumerated(EnumType.STRING)
-//    private IterationType iterationType;
-//
-//    private String documentUrl;
-//
-//
-//    private Long assignmentId;
-//
-//
-//    private SubmissionStatus status = SubmissionStatus.SUBMITTED;
-//
-//
-//
-//    private Long studentSubmitId; // User with role STUDENT
-//
-//    private Long feedbackId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public IterationType getIterationType() {
+        return iterationType;
+    }
+
+    public void setIterationType(IterationType iterationType) {
+        this.iterationType = iterationType;
+    }
 }
 
 

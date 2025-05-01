@@ -3,6 +3,7 @@ package com.report.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.report.DTOs.UserDTO;
 import com.report.entities.Role;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public User createUser(UserDTO user) {
+        User usr= new User();
+        usr.setRole(user.getRole());
+        usr.setName(user.getName());
+        usr.setPassword(user.getPassword());
+        usr.setEmail(user.getEmail());
+
+
+        return   userRepository.save(usr);
     }
 
 

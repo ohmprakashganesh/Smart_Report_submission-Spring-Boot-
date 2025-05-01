@@ -1,4 +1,5 @@
 package com.report.controller;
+import com.report.DTOs.FeedbackDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class FeedbackController {
 
     //post the feedback
     @PostMapping
-    public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
+    public ResponseEntity<Feedback> createFeedback(@RequestBody FeedbackDTO feedback) {
         Feedback createdFeedback = feedbackService.createFeedback(feedback);
         return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
     }
