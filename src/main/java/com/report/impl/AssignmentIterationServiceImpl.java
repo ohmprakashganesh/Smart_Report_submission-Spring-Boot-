@@ -6,6 +6,7 @@ import com.report.copyleaks.DTOs.CopyLeaksCheck;
 import com.report.copyleaks.DTOs.CopyleaksBusinessCheck;
 import com.report.entities.Assignment;
 import com.report.entities.User;
+import com.report.exceptional.UserNotFound;
 import com.report.repository.AssignmentRepo;
 import com.report.repository.UserRepo;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class AssignmentIterationServiceImpl implements AssignmentIterationServic
     @Override
     public AssignmentIteration updateIteration(Long id, AssignmentIteration iteration) {
         if (!assignmentIterationRepository.existsById(id)) {
-            throw new RuntimeException("Iteration not found");
+            throw new UserNotFound("Iteration not found");
         }
        Optional< AssignmentIteration >itr= assignmentIterationRepository.findById(id);
         AssignmentIteration iteration2= itr.get();

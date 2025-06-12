@@ -29,13 +29,11 @@ import lombok.Data;
 @NoArgsConstructor
 public class AssignmentDTO {
 
-
         private Long id;
         private String description;
         private String title;
         private Long studentGroupId;
         private String StudentGroupName;
-
         private List<Long> assignmentIterIds;
 
 
